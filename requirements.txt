@@ -1,0 +1,16 @@
+torch
+torchvision
+torchaudio
+onnxruntime-gpu
+opencv-python
+numpy
+Pillow
+scipy
+tqdm
+aiohttp
+transformers
+accelerate
+huggingface_hub
+kornia
+insightface
+diffusers
