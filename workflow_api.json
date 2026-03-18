@@ -1,0 +1,33 @@
+{
+  "6": {
+    "inputs": {
+      "text": "A high quality realistic video of a person walking"
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "7": {
+    "inputs": {
+      "text": "low quality, blurry, distorted"
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "10": {
+    "inputs": {
+      "text": "Sample Subtitle Text",
+      "font_name": "Arial.ttf",
+      "font_size": 40,
+      "color": "white",
+      "x_position": 100,
+      "y_position": 400,
+      "animation": "none"
+    },
+    "class_type": "DrawTextNode"
+  },
+  "20": {
+    "inputs": {
+      "video_format": "mp4",
+      "fps": 24
+    },
+    "class_type": "VideoCombine"
+  }
+}
