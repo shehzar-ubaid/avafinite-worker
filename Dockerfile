@@ -6,16 +6,17 @@ RUN apt-get update && apt-get install -y git python3-pip python3-dev ffmpeg libg
 WORKDIR /app
 RUN git clone https://github.com/comfyanonymous/ComfyUI.git .
 RUN pip3 install --no-cache-dir -r requirements.txt
-RUN pip3 install runpod # RunPod worker ke liye zaroori
+RUN pip3 install --no-cache-dir runpod 
 
-# Subtitles ke liye zaroori nodes
 WORKDIR /app/custom_nodes
-RUN git clone https://github.com/AlekPet/ComfyUI_Custom_Nodes_AlekPet.git
-RUN git clone https://github.com/jovandant/ComfyUI-VideoHelperSuite.git
+RUN git clone https://github.com/AlekPet/ComfyUI_Custom_Nodes_AlekPet.git || true
+RUN git clone https://github.com/ltdrdata/ComfyUI-Manager.git || true
+RUN git clone https://github.com/jovandant/ComfyUI-VideoHelperSuite.git || true
 
 WORKDIR /app
 COPY handler.py .
-COPY workflow_api.json . 
+# Agar workflow file hai toh niche wali line se '#' hata dein
+# COPY workflow_api.json . 
 
-# Pehle ComfyUI start hoga, phir worker
-CMD python3 main.py --listen 0.0.0.0 & python3 -u handler.py
+# Sahi JSON format for CMD (Warnings khatam karne ke liye)
+CMD ["sh", "-c", "python3 main.py --listen 0.0.0.0 & python3 -u handler.py"]
