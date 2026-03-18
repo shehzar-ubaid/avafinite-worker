@@ -12,6 +12,8 @@ WORKDIR /app/custom_nodes
 RUN git clone https://github.com/AlekPet/ComfyUI_Custom_Nodes_AlekPet.git || true
 RUN git clone https://github.com/ltdrdata/ComfyUI-Manager.git || true
 RUN git clone https://github.com/jovandant/ComfyUI-VideoHelperSuite.git || true
+# SeedVR2 Upscaler Node add kiya gaya hai
+RUN git clone https://github.com/AIGODLIKE/ComfyUI-SeedVR2.git || true
 
 WORKDIR /app
 COPY handler.py .
