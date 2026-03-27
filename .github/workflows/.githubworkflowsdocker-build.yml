@@ -3,7 +3,6 @@ name: Build and Push AI Worker
 on:
   push:
     branches: [ "main" ]
-  workflow_dispatch:
 
 jobs:
   build-and-push:
@@ -11,9 +10,6 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -25,12 +21,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./Dockerfile
           push: true
-          # Yahan 'shehzarubaid' ki jagah apna asli Docker Hub username (lowercase) likhein
-          tags: shehzarubaid/avafinite-worker:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-      - name: Build Status Notification
-        run: echo "AI Worker image has been successfully pushed to Docker Hub!"
+          # Aapka naya Docker Hub account
+          tags: afshankashif699/avafinite-worker:latest
