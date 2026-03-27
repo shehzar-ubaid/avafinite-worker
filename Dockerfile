@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y git python3-pip python3-dev ffmpeg libg
 WORKDIR /app
 RUN git clone https://github.com/comfyanonymous/ComfyUI.git .
 RUN pip3 install --no-cache-dir -r requirements.txt || true
-RUN pip3 install --no-cache-dir runpod requests
+RUN pip3 install --no-cache-dir runpod requests    
 
 WORKDIR /app/custom_nodes
 RUN git clone https://github.com/AlekPet/ComfyUI_Custom_Nodes_AlekPet.git || true
@@ -16,7 +16,7 @@ RUN git clone https://github.com/jovandant/ComfyUI-VideoHelperSuite.git || true
 RUN git clone https://github.com/AIGODLIKE/ComfyUI-SeedVR2.git || true
 
 WORKDIR /app
-COPY handler.py .
+COPY handler.py .         
 COPY workflow_api.json* ./
 
 EXPOSE 8188    
