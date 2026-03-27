@@ -1,14 +1,37 @@
-name: Docker Build Test
+name: Build and Push AI Worker
+
 on:
   push:
     branches: [ "main" ]
-  workflow_dispatch: # Yeh line manual button enable karegi
+  workflow_dispatch: # Manual run enable karne ke liye
 
 jobs:
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Code
         uses: actions/checkout@v4
-      - name: Simple Echo Test
-        run: echo "GitHub Actions is working!"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and Push Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          # 'username/repo-name' ko apne asli Docker Hub naam se badlein
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/avafinite-worker:latest
+          # Build cache optimize karne ke liye
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build Status Notification
+        run: echo "AI Worker image has been successfully built and pushed to Docker Hub!"
