@@ -5,7 +5,7 @@ import base64
 import time
 
 def wait_for_comfyui():  
-    while True:
+    while True:   
         try:
             response = requests.get("http://127.0.0.1:8188/history")
             if response.status_code == 200: break
