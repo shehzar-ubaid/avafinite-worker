@@ -18,9 +18,15 @@ jobs:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
-          # Inka matlab hai ke GitHub aapke 'Secrets' se data uthayega
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Prepare Docker Metadata
+        id: meta
+        run: |
+          # Username ko lowercase mein convert karna zaroori hai Docker tags ke liye
+          USER=$(echo "${{ secrets.DOCKERHUB_USERNAME }}" | tr '[:upper:]' '[:lower:]')
+          echo "docker_username=$USER" >> $GITHUB_OUTPUT
 
       - name: Build and Push Image
         uses: docker/build-push-action@v5
@@ -28,10 +34,10 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          # Yahan ${{ secrets.DOCKERHUB_USERNAME }} khud aapka username laga dega
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/avafinite-worker:latest
+          # Ab ye automatic lowercase username use karega
+          tags: ${{ steps.meta.outputs.docker_username }}/avafinite-worker:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - name: Build Status Notification
-        run: echo "AI Worker image has been successfully built and pushed to Docker Hub!"
+        run: echo "AI Worker image for ${{ steps.meta.outputs.docker_username }} successfully pushed!"
