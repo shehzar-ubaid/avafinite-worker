@@ -21,23 +21,16 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Prepare Docker Metadata
-        id: meta
-        run: |
-          # Username ko lowercase mein convert karna zaroori hai Docker tags ke liye
-          USER=$(echo "${{ secrets.DOCKERHUB_USERNAME }}" | tr '[:upper:]' '[:lower:]')
-          echo "docker_username=$USER" >> $GITHUB_OUTPUT
-
       - name: Build and Push Image
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
           push: true
-          # Ab ye automatic lowercase username use karega
-          tags: ${{ steps.meta.outputs.docker_username }}/avafinite-worker:latest
+          # Yahan 'shehzarubaid' ki jagah apna asli Docker Hub username (lowercase) likhein
+          tags: shehzarubaid/avafinite-worker:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - name: Build Status Notification
-        run: echo "AI Worker image for ${{ steps.meta.outputs.docker_username }} successfully pushed!"
+        run: echo "AI Worker image has been successfully pushed to Docker Hub!"
