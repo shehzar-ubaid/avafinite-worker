@@ -3,7 +3,7 @@ name: Build and Push AI Worker
 on:
   push:
     branches: [ "main" ]
-  workflow_dispatch: # Manual run enable karne ke liye
+  workflow_dispatch:
 
 jobs:
   build-and-push:
@@ -18,6 +18,7 @@ jobs:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
+          # Inka matlab hai ke GitHub aapke 'Secrets' se data uthayega
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
@@ -27,9 +28,8 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          # 'username/repo-name' ko apne asli Docker Hub naam se badlein
+          # Yahan ${{ secrets.DOCKERHUB_USERNAME }} khud aapka username laga dega
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/avafinite-worker:latest
-          # Build cache optimize karne ke liye
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
