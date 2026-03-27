@@ -19,6 +19,6 @@ WORKDIR /app
 COPY handler.py .
 COPY workflow_api.json* ./
 
-EXPOSE 8188
+EXPOSE 8188              #1898
 
 CMD ["sh", "-c", "python3 main.py --listen 0.0.0.0 & python3 -u handler.py"]
