@@ -5,7 +5,7 @@ import base64
 import time
 import os
 
-def wait_for_comfyui():
+def wait_for_comfyui(): 
     while True:
         try:
             response = requests.get("http://127.0.0.1:8188/history")
