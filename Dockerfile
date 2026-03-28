@@ -4,16 +4,19 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y git python3-pip ffmpeg libgl1-mesa-glx libglib2.0-0 wget curl
 
 WORKDIR /app
+# Pehle ComfyUI clone karein
 RUN git clone https://github.com/comfyanonymous/ComfyUI.git .
 
-# 🔥 TORCH CUDA VERSION PEHLE INSTALL (yeh line sabse important hai)
+# 🔥 CRITICAL FIX: Apni requirements.txt file ko pehle copy karein
+COPY requirements.txt .
+
+# Install Torch for CUDA 12.1
 RUN pip install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
 
-# Baaki requirements (ab torch wali lines hata di hain)
+# Install aapki requirements (Runpod aur requests isme shamil hain)
 RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install --no-cache-dir runpod requests
 
-# Custom Nodes
+# Custom Nodes setup
 WORKDIR /app/custom_nodes
 RUN git clone https://github.com/ltdrdata/ComfyUI-Manager.git || true
 RUN git clone https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite.git || true
@@ -28,5 +31,4 @@ COPY handler.py .
 COPY workflow_api.json .
 RUN mkdir -p output
 
-# Super fast startup
 CMD ["sh", "-c", "python3 main.py --listen 0.0.0.0 --port 8188 --force-fp16 & python3 -u handler.py"]
