@@ -5,10 +5,15 @@ RUN apt-get update && apt-get install -y git python3-pip ffmpeg libgl1-mesa-glx 
 
 WORKDIR /app
 RUN git clone https://github.com/comfyanonymous/ComfyUI.git .
-RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install --no-cache-dir runpod requests torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
 
-# Custom Nodes (sab kuch pre-installed for speed)
+# 🔥 TORCH CUDA VERSION PEHLE INSTALL (yeh line sabse important hai)
+RUN pip install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+
+# Baaki requirements (ab torch wali lines hata di hain)
+RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir runpod requests
+
+# Custom Nodes
 WORKDIR /app/custom_nodes
 RUN git clone https://github.com/ltdrdata/ComfyUI-Manager.git || true
 RUN git clone https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite.git || true
