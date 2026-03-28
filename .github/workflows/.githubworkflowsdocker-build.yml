@@ -22,4 +22,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: afshankashif699/avafinite-worker:latest
+          # Updated with your requested name and username
+          tags: shehzar-ubaid/avafinite-worker:latest
