@@ -22,7 +22,7 @@ RUN git clone https://github.com/ShmuelRonen/ComfyUI-LatentSyncWrapper.git || tr
 RUN git clone https://github.com/kijai/ComfyUI-LivePortraitKJ.git || true
 RUN git clone https://github.com/diodiogod/TTS-Audio-Suite.git || true
 RUN git clone https://github.com/pythongosssss/ComfyUI-Custom-Nodes.git || true
-
+   
 WORKDIR /app
 COPY handler.py .
 COPY workflow_api.json .
