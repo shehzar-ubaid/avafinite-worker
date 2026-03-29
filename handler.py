@@ -6,7 +6,7 @@ import time
 import os 
 
 COMFYUI_OUTPUT_PATH = "/app/output"
-
+  
 def wait_for_comfyui():
     for _ in range(150): 
         try:
