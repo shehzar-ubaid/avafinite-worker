@@ -9,7 +9,7 @@ RUN git clone https://github.com/comfyanonymous/ComfyUI.git .
 COPY requirements.txt .
 RUN pip install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
 RUN pip install --no-cache-dir -r requirements.txt
-
+ 
 # Custom Nodes with Dependency installation
 WORKDIR /app/custom_nodes
 RUN git clone https://github.com/ltdrdata/ComfyUI-Manager.git || true

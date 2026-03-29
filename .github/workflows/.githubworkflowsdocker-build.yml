@@ -3,6 +3,7 @@ name: Build and Push AI Worker
 on:
   push:
     branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   build-and-push:
@@ -11,10 +12,13 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
-          # Ensure these are set in GitHub Secrets
+          # Inka data GitHub Secrets se aayega
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
@@ -22,6 +26,12 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
+          file: ./Dockerfile
           push: true
-          # Make sure this repo 'avafinite-worker' exists on Docker Hub
-          tags: shehzar-ubaid/avafinite-worker:latest
+          # YAHAN FIX HAI: Aapka Docker Hub username 'afshankashif699' hai
+          tags: afshankashif699/avafinite-worker:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build Status Notification
+        run: echo "AI Worker image successfully pushed to afshankashif699 account!"
