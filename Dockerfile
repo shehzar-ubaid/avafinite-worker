@@ -4,19 +4,13 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y git python3-pip ffmpeg libgl1-mesa-glx libglib2.0-0 wget curl
 
 WORKDIR /app
-# Pehle ComfyUI clone karein
 RUN git clone https://github.com/comfyanonymous/ComfyUI.git .
 
-# 🔥 CRITICAL FIX: Apni requirements.txt file ko pehle copy karein
 COPY requirements.txt .
-
-# Install Torch for CUDA 12.1
 RUN pip install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
-
-# Install aapki requirements (Runpod aur requests isme shamil hain)
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Custom Nodes setup
+# Custom Nodes with Dependency installation
 WORKDIR /app/custom_nodes
 RUN git clone https://github.com/ltdrdata/ComfyUI-Manager.git || true
 RUN git clone https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite.git || true
@@ -25,7 +19,10 @@ RUN git clone https://github.com/ShmuelRonen/ComfyUI-LatentSyncWrapper.git || tr
 RUN git clone https://github.com/kijai/ComfyUI-LivePortraitKJ.git || true
 RUN git clone https://github.com/diodiogod/TTS-Audio-Suite.git || true
 RUN git clone https://github.com/pythongosssss/ComfyUI-Custom-Nodes.git || true
-   
+
+# Specific fixes for nodes like SeedVR2 and LivePortrait
+RUN pip install -r ComfyUI-LivePortraitKJ/requirements.txt || true
+
 WORKDIR /app
 COPY handler.py .
 COPY workflow_api.json .

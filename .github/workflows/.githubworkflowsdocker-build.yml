@@ -14,6 +14,7 @@ jobs:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
+          # Ensure these are set in GitHub Secrets
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
@@ -22,5 +23,5 @@ jobs:
         with:
           context: .
           push: true
-          # Updated with your requested name and username
+          # Make sure this repo 'avafinite-worker' exists on Docker Hub
           tags: shehzar-ubaid/avafinite-worker:latest
