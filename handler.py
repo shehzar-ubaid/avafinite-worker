@@ -3,7 +3,7 @@ import requests
 import json
 import base64
 import time
-import os
+import os 
 
 COMFYUI_OUTPUT_PATH = "/app/output"
 
