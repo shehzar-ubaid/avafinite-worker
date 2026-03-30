@@ -8,7 +8,7 @@ import os
 COMFYUI_OUTPUT_PATH = "/app/output"
   
 def wait_for_comfyui():
-    for _ in range(150): 
+    for _ in range(150):    
         try:
             response = requests.get("http://127.0.0.1:8188/history")
             if response.status_code == 200:
